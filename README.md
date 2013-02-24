@@ -1,4 +1,4 @@
 runnable
 ========
 
-A picklable work-object implementation
+A picklable work-object implementation.
