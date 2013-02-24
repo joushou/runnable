@@ -1,7 +1,7 @@
 from __future__ import print_function, absolute_import, unicode_literals, division
 from copy_reg import pickle
 from types import CodeType
-from new import code, function
+from new import code
 
 def code_ctor(argcount, nlocals, stacksize, flags, cocode,
               consts, names, varnames, filename, name,
