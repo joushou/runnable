@@ -71,4 +71,3 @@ class ExecRunnable(Runnable):
 	def execute(self):
 		'Execute the compiled source'
 		exec(self.properties[0], self.properties[1], self.properties[2])
-		return self.properties[1], self.properties[2]
