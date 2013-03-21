@@ -42,13 +42,13 @@ class RunnableServer(Runnable):
 		pollin, pollpri, pollhup, pollerr = select.POLLIN, select.POLLPRI, select.POLLHUP, select.POLLERR
 
 		def terminate(fd):
-			clients[fd].destroy()
 			try:
 				servpoll.unregister(servfdmap[fd])
+				clients[fd].destroy()
+				del clients[fd]
+				del servfdmap[fd]
 			except socket.error:
 				pass
-			del clients[fd]
-			del servfdmap[fd]
 
 		servsock.bind(("0.0.0.0", port))
 		servsock.listen(40)
