@@ -43,7 +43,10 @@ class RunnableServer(Runnable):
 
 		def terminate(fd):
 			clients[fd].destroy()
-			servpoll.unregister(servfdmap[fd])
+			try:
+				servpoll.unregister(servfdmap[fd])
+			except socket.error:
+				pass
 			del clients[fd]
 			del servfdmap[fd]
 
