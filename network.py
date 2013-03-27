@@ -41,7 +41,7 @@ class RunnableServer(Runnable):
 		try:
 			servpoll = select.epoll()
 			pollin, pollpri, pollhup, pollerr = select.EPOLLIN, select.EPOLLPRI, select.EPOLLHUP, select.EPOLLERR
-		except ValueError:
+		except KeyError:
 			servpoll = select.poll()
 			pollin, pollpri, pollhup, pollerr = select.POLLIN, select.POLLPRI, select.POLLHUP, select.POLLERR
 
