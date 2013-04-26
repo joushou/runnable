@@ -23,10 +23,13 @@ class RunnableServerError(Exception):
 		return repr(self.value)
 
 class RunnableServer(Runnable):
+	def __init__(self, port, reqObj):
+		self.port = port
+		self.reqObj = reqObj
+		super(RunnableServer, self).__init__()
+
 	def execute(self):
-		port = self.properties['port']
-		reqObj = self.properties['reqObj']
-		if not issubclass(reqObj, RequestObject):
+		if not issubclass(self.reqObj, RequestObject):
 			raise RunnableServerError('reqObj not subclass of RequestObject')
 
 		servsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -54,7 +57,7 @@ class RunnableServer(Runnable):
 			except socket.error:
 				pass
 
-		servsock.bind(("0.0.0.0", port))
+		servsock.bind(("0.0.0.0", self.port))
 		servsock.listen(40)
 
 		servpoll.register(servsock, pollin | pollpri | pollhup | pollerr)
@@ -72,7 +75,7 @@ class RunnableServer(Runnable):
 							servfdmap[fileno] = connection
 							servpoll.register(connection, pollin | pollpri | pollhup | pollerr)
 
-							clients[fileno] = reqObj(connection)
+							clients[fileno] = self.reqObj(connection)
 							clients[fileno].init()
 
 						else:
